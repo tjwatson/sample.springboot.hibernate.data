@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server description="new server">
+
+    <!-- Enable features -->
+    <featureManager>
+        <feature>servlet-6.0</feature>
+        <feature>jdbc-4.2</feature>
+        <feature>jndi-1.0</feature>
+    </featureManager>
+
+    <!-- To access this server from a remote client add a host attribute to the following element, e.g. host="*" -->
+    <httpEndpoint id="defaultHttpEndpoint"
+                  httpPort="9080"
+                  httpsPort="9443" />
+
+    <!-- Default SSL configuration enables trust for default certificates from the Java runtime --> 
+    <ssl id="defaultSSLConfig" trustDefaultCerts="true" />
+
+    <library id="DerbyLib">
+        <file name="${shared.resource.dir}/derby-10.16.1.1.jar"/>
+        <file name="${shared.resource.dir}/derbytools-10.16.1.1.jar"/>
+        <file name="${shared.resource.dir}/derbyshared-10.16.1.1.jar"/>
+    </library>
+    <dataSource jndiName="jdbc/CUSTOMER_UNIT" type="javax.sql.XADataSource" id="customerDataSource">
+        <jdbcDriver libraryRef="DerbyLib"/>
+        <properties.derby.embedded createDatabase="create" databaseName="memory:customerDB"/>
+    </dataSource>
+    <dataSource jndiName="jdbc/EMPLOYEE_UNIT" type="javax.sql.XADataSource" id="employeeDataSource">
+        <jdbcDriver libraryRef="DerbyLib"/>
+        <properties.derby.embedded createDatabase="create" databaseName="memory:employeeDB"/>
+    </dataSource>
+</server>
